@@ -9,6 +9,8 @@ else
     echo "Unsupported architecture: $ARCH"
     exit 1
 fi
+# Generate a random uuid
+dbus-uuidgen > /etc/machine-id
 # Download, install and run the program
 wget -q https://api.speedshare.app/download/linux/cli/$ARCH -O /root/SpeedShareCLI
 chmod +x /root/SpeedShareCLI
