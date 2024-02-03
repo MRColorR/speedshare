@@ -1,7 +1,7 @@
 # Speedshare Unofficial Docker Image
 [Github repo](https://github.com/ElDavoo/speedshare)  
 Supports **x86_64** and **arm64**.  
-Your **container hostname** will be the **device name** on the dashboard.  
+Your **container hostname** will be the random.  
 You won't get much logs, it's normal. Check the dashboard after about half a minute.  
 
 > The auto-update feature is enabled, but untested.  
