@@ -9,8 +9,18 @@ else
     echo "Unsupported architecture: $ARCH"
     exit 1
 fi
-# Generate a random uuid
-dbus-uuidgen > /etc/machine-id
+
+# Check if a SPEEDSHARE_UUID is provided as an environment variable, else gives a warning message and a new UUID is generated
+if [ -z "$SPEEDSHARE_UUID" ]; then
+    echo "Warning: No UUID provided. A new random UUID will be generated"
+    echo "This will cause the device to be seen as a new device in the SpeedShare app every time it is restarted."
+    echo "To avoid this, please provide a UUID as an environment variable."
+    dbus-uuidgen > /etc/machine-id
+else
+    echo "$SPEEDSHARE_UUID" > /etc/machine-id
+    echo "UUID provided: $SPEEDSHARE_UUID"
+fi
+
 # Download, install and run the program
 wget -q https://api.speedshare.app/download/linux/cli/$ARCH -O /root/SpeedShareCLI
 chmod +x /root/SpeedShareCLI
