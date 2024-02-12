@@ -1,4 +1,4 @@
-name: Docker
+name: Docker Build and Push
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,35 +6,103 @@ name: Docker
 # documentation.
 
 on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at 00:00 UTC daily
   push:
     branches: [ "main" ]
+  workflow_dispatch:
 
+permissions: # The permissions that the workflow has. The permissions are inherited from the job and can be customized.
+    contents: write
+
+env:
+  IMAGE_NAME: 'mrcolorrain/speedshare' # The name of the image to be built and pushed ! Change this to your own docker hub username/image as i cannot push here
+  TAG: 'latest'
+  MAX_DELAY: 60 # Maximum delay in seconds
+  VERSION_FILE_PATH: '.githubworkflows.current_version' # Path to the version file
+  
 jobs:
-  build:
-
+  build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-        # Set up BuildKit Docker container builder to be able to build
-      # multi-platform images and export cache
-      # https://github.com/docker/setup-buildx-action
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@f95db51fddba0c2d1ec667646a06c2ce06100226 # v3.0.0
-
-      - name: login to docker hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-
-      - name: build and push the image
+      - name: Randomized Delay
         run: |
-          docker buildx build --push \
-            --tag eldavo/speedshare:latest \
-            --platform linux/amd64,linux/arm64 .
+          sleep $((RANDOM % $MAX_DELAY))
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for new version
+        id: version-check
+        run: |
+          ARCH=$(uname -m)
+          if [ "$ARCH" = "x86_64" ]; then
+              ARCH="amd64"
+          elif [ "$ARCH" = "aarch64" ]; then
+              ARCH="arm64"
+          else
+              echo "Unsupported architecture: $ARCH" && exit 1
+          fi
+          echo "Detected runner arch: $ARCH"
+          wget -q https://api.speedshare.app/download/linux/cli/$ARCH -O SpeedShareCLI
+          chmod +x SpeedShareCLI
+          ./SpeedShareCLI version > latest_version.txt
+          LATEST_VERSION=$(cat latest_version.txt | awk -F': ' '/[Vv]ersion:/ {gsub(/^ +| +$|│/,"",$2); print $2}')
+          echo "Latest Version detected: $LATEST_VERSION"
+
+          # Check the current version stored in the repository
+          if [ -f ${{ env.VERSION_FILE_PATH }} ]; then
+              CURRENT_VERSION=$(cat ${{ env.VERSION_FILE_PATH }})
+          else
+              CURRENT_VERSION="none"
+          fi
+          echo "Current Version: $CURRENT_VERSION"
+          if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
+              echo "New version detected: $LATEST_VERSION"
+              echo "latest_version=$LATEST_VERSION" >> $GITHUB_ENV
+              echo "trigger_build=true" >> $GITHUB_ENV
+          else
+              echo "No new version detected. Skipping build"
+              echo "trigger_build=false" >> $GITHUB_ENV
+          fi
+
+      - name: Setup QEMU
+        if: ${{ env.trigger_build }} == 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: ${{ env.trigger_build }} == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        if: ${{ env.trigger_build }} == 'true'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        if: ${{ env.trigger_build }} == 'true'
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -t ${{ env.IMAGE_NAME}}:${{ env.TAG }} \
+            --push .
+
+      - name: Commit and push updates version file
+        if: ${{ env.trigger_build }} == 'true'
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'mrcolorr@users.noreply.github.com'
+          git add ${{ env.VERSION_FILE_PATH }}
+          git commit -m "Update version file to ${{ env.latest_version }}"
+          git push
+
+      - name: Create and push tag
+        if: ${{ env.trigger_build }} == 'true'
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'mrcolorr@users.noreply.github.com'
+          git tag -a ${{ env.latest_version }} -m "Update to ${{ env.latest_version }}"
+          git push origin ${{ env.latest_version }}
+
