@@ -52,10 +52,13 @@ jobs:
 
           # Check the current version stored in the repository
           if [ -f ${{ env.VERSION_FILE_PATH }} ]; then
-              CURRENT_VERSION=$(cat ${{ env.VERSION_FILE_PATH }})
+              echo "Current version file ${{ env.VERSION_FILE_PATH }} found"
           else
-              CURRENT_VERSION="none"
+            echo "Can not find current version file ${{ env.VERSION_FILE_PATH }}. Creating a new one"
+              mkdir -p $(dirname ${{ env.VERSION_FILE_PATH }})
+              echo 'none' > ${{ env.VERSION_FILE_PATH }}
           fi
+          CURRENT_VERSION=$(cat ${{ env.VERSION_FILE_PATH }})
           echo "Current Version: $CURRENT_VERSION"
           if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
               echo "New version detected: $LATEST_VERSION"
