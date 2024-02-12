@@ -10,11 +10,11 @@ RUN rm -rf /var/cache/apk/* /tmp/*
 # Define the download URL base
 ARG DOWNLOAD_URL=https://api.speedshare.app/download/linux/cli
 
-# Determine the architecture and download the correct SpeedShareCLI binary
+# Determine the architecture and download the correct SpeedShareCLI binary eg  "x86_64" or 
 ARG ARCH
-RUN if [ "$(uname -m)" = "x86_64" ]; then \
+RUN if [ "$(uname -m)" = "x86_64" ] ||  [ "$TARGETARCH" = "amd64" ]; then \
         ARCH="amd64"; \
-    elif [ "$(uname -m)" = "aarch64" ]; then \
+    elif [ "$(uname -m)" = "aarch64" ] || [ "$TARGETARCH" = "arm64" ]; then \
         ARCH="arm64"; \
     else \
         echo "Unsupported architecture: $(uname -m)" && exit 1; \
