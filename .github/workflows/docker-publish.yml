@@ -47,7 +47,7 @@ jobs:
           wget -q https://api.speedshare.app/download/linux/cli/$ARCH -O SpeedShareCLI
           chmod +x SpeedShareCLI
           ./SpeedShareCLI version > latest_version.txt
-          LATEST_VERSION=$(cat latest_version.txt | awk -F': ' '/[Vv]ersion:/ {gsub(/^ +| +$|│/,"",$2); print $2}')
+          LATEST_VERSION=$(cat latest_version.txt | awk -F': ' '/[Vv]ersion:/ {gsub(/^ +| +$|│/,"",$2); print $2}' | sed 's/\x1b\[[0-9;]*m//g')
           echo "Latest Version detected: $LATEST_VERSION"
 
           # Check the current version stored in the repository
@@ -61,8 +61,9 @@ jobs:
           CURRENT_VERSION=$(cat ${{ env.VERSION_FILE_PATH }})
           echo "Current Version: $CURRENT_VERSION"
           if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
-              echo "New version detected: $LATEST_VERSION"
+              echo "New version detected: $LATEST_VERSION. Triggering build..."
               echo "latest_version=$LATEST_VERSION" >> $GITHUB_ENV
+              echo "$LATEST_VERSION" > ${{ env.VERSION_FILE_PATH }}
               echo "trigger_build=true" >> $GITHUB_ENV
           else
               echo "No new version detected. Skipping build"
