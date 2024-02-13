@@ -10,10 +10,11 @@
 This repository hosts the Dockerfile and necessary configurations for the unofficial SpeedShare Docker image. It's designed to facilitate the deployment of SpeedShare in Docker environments, supporting both x86_64 and arm64 architectures. This project is not officially affiliated with SpeedShare.
 
 ## Features ✨
-- **Multi-Architecture Support**: Compatible with both x86_64 and arm64 architectures.
+- **Alpine Base Image**: Utilizes the latest version of Alpine linux for a small footprint.
+- **Multi-Architecture Support**: Supports both x86_64 and arm64 architectures.
 - **Minimal Configuration**: Easy to set up with minimal configuration required.
 - **Persistent UUID**: Supports passing a UUID to maintain device identity across restarts.
-- **Auto-Update (Experimental)**: Includes an experimental auto-update feature for the SpeedShare CLI.
+- **Auto-Update**: Always updated to be in line with the latest SpeedShare CLI.
 
 ## Prerequisites 📋
 Ensure Docker is installed on your system. For installation instructions, please refer to the [official Docker documentation](https://docs.docker.com/get-docker/).
