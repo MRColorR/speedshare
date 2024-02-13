@@ -42,8 +42,8 @@ services:
     restart: unless-stopped
 ```
 
-Disclaimer ⚠️
+## Disclaimer ⚠️
 This Docker container and its configurations are provided "as is" without warranty of any kind. It's an unofficial build and not officially endorsed by SpeedShare.
 
-Contributing 🤲
+## Contributing 🤲
 Your contributions are welcome! If you'd like to improve the project or fix a bug, please fork the repository and submit a pull request.
