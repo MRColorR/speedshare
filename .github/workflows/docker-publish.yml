@@ -64,29 +64,29 @@ jobs:
               echo "New version detected: $LATEST_VERSION. Triggering build..."
               echo "latest_version=$LATEST_VERSION" >> $GITHUB_ENV
               echo "$LATEST_VERSION" > ${{ env.VERSION_FILE_PATH }}
-              echo "trigger_build=true" >> $GITHUB_ENV
+              echo "trigger_build=true" >> $GITHUB_OUTPUT
           else
               echo "No new version detected. Skipping build"
-              echo "trigger_build=false" >> $GITHUB_ENV
+              echo "trigger_build=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Setup QEMU
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         uses: docker/setup-buildx-action@v3
 
       - name: Login to DockerHub
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME_2 }}
           password: ${{ secrets.DOCKER_PASSWORD_2 }}
 
       - name: Build and Push Docker Image
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
@@ -94,7 +94,7 @@ jobs:
             --push .
 
       - name: Commit and push updates version file
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'mrcolorr@users.noreply.github.com'
@@ -103,7 +103,7 @@ jobs:
           git push
 
       - name: Create and push tag
-        if: ${{ env.trigger_build }} == 'true'
+        if: steps.version-check.outputs.trigger_build == 'true'
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'mrcolorr@users.noreply.github.com'
