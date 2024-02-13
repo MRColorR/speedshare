@@ -46,4 +46,4 @@ services:
 This Docker container and its configurations are provided "as is" without warranty of any kind. It's an unofficial build and not officially endorsed by SpeedShare.
 
 ## Contributing 🤲
-Your contributions are welcome! If you'd like to improve the project or fix a bug, please fork the repository and submit a pull request.
+Your contributions are welcome! If you'd like to improve the project or fix a bug, please fork the repository and submit a pull request. Let's make this project even better, together!
