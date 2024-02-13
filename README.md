@@ -4,7 +4,7 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/MRColorR/speedshare/docker-publish.yml?style=flat&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fmrcolorrain%2Fspeedshare)
 
 
-🌟 **If you find this project helpful, please consider leaving a star. Your support is appreciated!**
+🌟 **If you find this project helpful, please consider leaving a star. Your support is appreciated!🙂** 
 
 ## Introduction 📖
 This repository hosts the Dockerfile and necessary configurations for the unofficial SpeedShare Docker image. It's designed to facilitate the deployment of SpeedShare in Docker environments, supporting both x86_64 and arm64 architectures. This project is not officially affiliated with SpeedShare.
