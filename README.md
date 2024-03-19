@@ -6,7 +6,7 @@
 🌟 **If you find this project helpful, please consider leaving a star. Your support is appreciated!🙂** 
 
 ## Introduction 📖
-This repository hosts the Dockerfile and necessary configurations for the unofficial SpeedShare Docker image. It's designed to facilitate the deployment of SpeedShare in Docker environments, supporting both x86_64 and arm64 architectures.
+This repository hosts the Dockerfile and necessary configurations for the unofficial [SpeedShare](https://speedshare.app/?ref=mindlessnerd) Docker image. It's designed to facilitate the deployment of SpeedShare in Docker environments, supporting both x86_64 and arm64 architectures.
 
 ## Features ✨
 - **Alpine Base Image**: Utilizes the latest version of Alpine linux for a small footprint.
