@@ -19,23 +19,24 @@ This repository hosts the Dockerfile and necessary configurations for the unoffi
 Ensure Docker is installed on your system. For installation instructions, please refer to the [official Docker documentation](https://docs.docker.com/get-docker/).
 
 ## Quick Start 🚀
-### Docker cli 🐳
-```bash
-docker run -d --name speedshare -h my_device -e CODE=your_authentication_code -e SPEEDSHARE_UUID=your_uuid mrcolorrain/speedshare 
-```
-### Docker compose 🐳
-```yaml
-version: "3.9"
-services:
-  speedshare:
-    container_name: speedshare
-    hostname: my_device
-    image: mrcolorrain/speedshare
-    environment:
-      - CODE=your_authentication_code
-      - SPEEDSHARE_UUID=your_uuid
-    restart: unless-stopped
-```
+You can run it easily passing the appropriate values.
+- ### Docker cli 🐳
+  ```bash
+  docker run -d --name speedshare -h my_device -e CODE=your_authentication_code -e SPEEDSHARE_UUID=your_uuid mrcolorrain/speedshare 
+  ```
+- ### Docker compose 🐳
+  ```yaml
+  version: "3.9"
+  services:
+    speedshare:
+      container_name: speedshare
+      hostname: my_device
+      image: mrcolorrain/speedshare
+      environment:
+        - CODE=your_authentication_code
+        - SPEEDSHARE_UUID=your_uuid
+      restart: unless-stopped
+  ```
 
 ## Contributing 🤲
 Your contributions are welcome! If you'd like to improve the project or fix a bug, please fork the repository and submit a pull request. Let's make this project even better, together!
