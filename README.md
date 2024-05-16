@@ -46,3 +46,6 @@ This is an unofficial build and not affiliated or officially endorsed by SpeedSh
 This repository (project) and its assets are provided "as is" without warranty of any kind.
 The author makes no warranties, express or implied, that this project and its assets are free of errors, defects, or suitable for any particular purpose.
 The author shall not be liable for any damages suffered by any user of this project, whether direct, indirect, incidental, consequential, or special, arising from the use of or inability to use this project, its assets or its documentation, even if the author has been advised of the possibility of such damages.
+
+## Want more? 💵📈
+This image is also part of Money4Band, a free open-source project that runs various passive income apps in a safe, containerized environment. Turn your unused internet bandwidth into earnings! Why let your unused internet bandwidth go to waste? Start earning today! Check out the Money4Band project on [here](https://github.com/MRColorR/money4band) GitHub to get started.
