@@ -1,7 +1,14 @@
 # Unofficial SpeedShare Docker Container 🚀
 ![Docker Pulls](https://img.shields.io/docker/pulls/mrcolorrain/speedshare?style=flat-square&link=https://hub.docker.com/r/mrcolorrain/speedshare)
 ![Docker Stars](https://img.shields.io/docker/stars/mrcolorrain/speedshare?style=flat-square&link=https://hub.docker.com/r/mrcolorrain/speedshare)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/MRColorR/speedshare/docker-publish.yml?style=flat&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fmrcolorrain%2Fspeedshare)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/MRColorR/speedshare/docker-publish.yml?style=flat-square&link=https%3A%2F%2Fhub.docker.com%2Frepository%2Fdocker%2Fmrcolorrain%2Fspeedshare)
+![Archived](https://img.shields.io/badge/status-archived-red?style=flat-square)
+
+> ⚠️ **Project Archived**  
+> The SpeedShare service is currently **down** and shows no signs of maintenance or updates from the original developers.  
+> Since the platform appears **abandoned and non‑functional**, this Docker image can no longer operate as intended.  
+> For transparency, the repository is now archived.  
+> Thank you to everyone who used, starred, or supported the project ❤️
 
 🌟 **If you find this project helpful, please consider leaving a star. Your support is appreciated!🙂** 
 
